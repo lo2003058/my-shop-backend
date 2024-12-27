@@ -2,6 +2,51 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type CustomerPointType {
+  currentPoints: Int!
+  accumulatedPoints: Int!
+  totalAccumulatedPoints: Int!
+}
+
+type CustomerAddressType {
+  id: Int!
+  address: String!
+  city: String!
+  state: String!
+  zip: String!
+  country: String!
+  isDefault: Boolean!
+}
+
+type TiersType {
+  id: Int!
+  name: String!
+  requiredPoints: Float!
+}
+
+type CustomerType {
+  id: Int!
+  password: String!
+  email: String!
+  firstName: String
+  lastName: String
+  country_code: String
+  phone: String
+  isEmailVerified: Boolean!
+  isPhoneVerified: Boolean!
+  isSubscribed: Boolean!
+  customerPoints: CustomerPointType
+  tier: TiersType
+  customerAddress: [CustomerAddressType!]
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type ProductType {
   id: Int!
   name: String!
@@ -14,20 +59,30 @@ type ProductType {
   updatedAt: DateTime!
 }
 
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
+type Tier {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
 
 type Query {
   products: [ProductType!]!
   product(id: Int!): ProductType!
+  customers: [CustomerType!]!
+  customer(id: Int!): CustomerType!
+  tiers: [Tier!]!
+  tier(id: Int!): Tier!
 }
 
 type Mutation {
   createProduct(createProductInput: CreateProductInput!): ProductType!
   updateProduct(updateProductInput: UpdateProductInput!): ProductType!
   removeProduct(id: Int!): ProductType!
+  createCustomer(createCustomerInput: CreateCustomerInput!): CustomerType!
+  updateCustomer(updateCustomerInput: UpdateCustomerInput!): CustomerType!
+  removeCustomer(id: Int!): CustomerType!
+  createTier(createTierInput: CreateTierInput!): Tier!
+  updateTier(updateTierInput: UpdateTierInput!): Tier!
+  removeTier(id: Int!): Tier!
 }
 
 input CreateProductInput {
@@ -40,5 +95,43 @@ input CreateProductInput {
 }
 
 input UpdateProductInput {
+  id: Int!
+  name: String!
+}
+
+input CreateCustomerInput {
+  email: String!
+  password: String!
+  firstName: String
+  lastName: String
+  country_code: String
+  phone: String
+  isEmailVerified: Boolean!
+  isPhoneVerified: Boolean!
+  isSubscribed: Boolean!
+}
+
+input UpdateCustomerInput {
+  id: Int!
+  email: String
+  firstName: String
+  lastName: String
+  country_code: String
+  phone: String
+  isEmailVerified: Boolean
+  isPhoneVerified: Boolean
+  isSubscribed: Boolean
+  currentPassword: String
+  newPassword: String
+}
+
+input CreateTierInput {
+  name: String!
+  requiredPoints: Int!
+}
+
+input UpdateTierInput {
+  name: String
+  requiredPoints: Int
   id: Int!
 }

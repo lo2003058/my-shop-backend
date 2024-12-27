@@ -4,8 +4,5 @@ export class LoginResponseDto {
   customer: {
     id: number;
     email: string;
-    name: string;
-    points: number;
-    tier: string | null;
   };
 }

@@ -42,7 +42,12 @@ export class AuthService {
     const { email, password } = loginDto;
 
     const customer = await this.customersService.findByEmail(email, {
-      include: { customerPoints: true, tier: true },
+      include: {
+        customerPoints: true,
+        tier: true,
+        Order: true,
+        customerAddress: true,
+      },
     });
 
     if (!customer) {
@@ -58,12 +63,11 @@ export class AuthService {
   }
 
   async login(customer: any): Promise<LoginResponseDto> {
-    const payload = { email: customer.email, sub: customer.id };
+    const payload = {
+      email: customer.email,
+      sub: customer.id,
+    };
     const token = this.jwtService.sign(payload);
-
-    const name = [customer.first_name, customer.last_name]
-      .filter(Boolean)
-      .join(' ');
 
     return {
       message: 'Logged in successfully',
@@ -71,9 +75,6 @@ export class AuthService {
       customer: {
         id: customer.id,
         email: customer.email,
-        name,
-        points: customer.customerPoints.totalPoints,
-        tier: customer.tier ? customer.tier.name : null,
       },
     };
   }

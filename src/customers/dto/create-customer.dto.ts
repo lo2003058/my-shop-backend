@@ -1,5 +1,3 @@
-// src/customers/dto/create-customer.dto.ts
-
 import {
   IsEmail,
   IsNotEmpty,
@@ -38,26 +36,6 @@ export class CreateCustomerDto {
   @IsOptional()
   @IsString()
   phone?: string;
-
-  @IsOptional()
-  @IsString()
-  address?: string;
-
-  @IsOptional()
-  @IsString()
-  city?: string;
-
-  @IsOptional()
-  @IsString()
-  state?: string;
-
-  @IsOptional()
-  @IsString()
-  country?: string;
-
-  @IsOptional()
-  @IsString()
-  zip_code?: string;
 
   @IsOptional()
   @IsInt()

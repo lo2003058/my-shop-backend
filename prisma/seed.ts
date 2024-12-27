@@ -3,10 +3,11 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 const tiers = [
-  { name: 'Silver', requiredPoints: 0 },
-  { name: 'Gold', requiredPoints: 200 },
-  { name: 'Platinum', requiredPoints: 500 },
-  { name: 'Diamond', requiredPoints: 1000 },
+  { name: 'Bronze', requiredPoints: 0 },
+  { name: 'Silver', requiredPoints: 100 },
+  { name: 'Gold', requiredPoints: 300 },
+  { name: 'Platinum', requiredPoints: 1000 },
+  { name: 'Diamond', requiredPoints: 2500 },
 ];
 
 const tempProducts = [

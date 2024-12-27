@@ -8,33 +8,52 @@ generator client {
 }
 
 model Customer {
-  id           Int      @id @default(autoincrement())
-  email        String   @unique
-  password     String
-  first_name   String?
-  last_name    String?
-  country_code String?
-  phone        String?
-  address      String?
-  city         String?
-  state        String?
-  country      String?
-  zip_code     String?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id              Int      @id @default(autoincrement())
+  email           String   @unique
+  password        String
+  first_name      String?
+  last_name       String?
+  country_code    String?
+  phone           String?
+  isEmailVerified Boolean  @default(false)
+  isPhoneVerified Boolean  @default(false)
+  isSubscribed    Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
   customerPoints   CustomerPoints @relation(fields: [customerPointsId], references: [id])
   customerPointsId Int            @unique
 
-  tier   Tier?   @relation(fields: [tierId], references: [id])
-  tierId Int?    @default(1)
-  Order  Order[]
+  tier            Tier?             @relation(fields: [tierId], references: [id])
+  tierId          Int?              @default(1)
+  Order           Order[]
+  customerAddress CustomerAddress[]
+}
+
+model CustomerAddress {
+  id           Int      @id @default(autoincrement())
+  firstName    String
+  lastName     String
+  country_code String
+  phone        String
+  address      String
+  city         String
+  state        String
+  country      String
+  zipCode      String
+  isDefault    Boolean  @default(false)
+  customer     Customer @relation(fields: [customerId], references: [id])
+  customerId   Int
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
 
 model CustomerPoints {
-  id          Int       @id @default(autoincrement())
-  totalPoints Int       @default(0)
-  customer    Customer? @relation
+  id                     Int       @id @default(autoincrement())
+  currentPoints          Int       @default(0)
+  accumulatedPoints      Int       @default(0)
+  totalAccumulatedPoints Int       @default(0)
+  customer               Customer? @relation
 }
 
 model Tier {

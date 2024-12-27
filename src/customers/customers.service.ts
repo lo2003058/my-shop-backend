@@ -1,7 +1,8 @@
 import {
+  BadRequestException,
   Injectable,
   NotFoundException,
-  BadRequestException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { Customer, Prisma } from '@prisma/client';
@@ -60,7 +61,9 @@ export class CustomersService {
         ...rest,
         customerPoints: {
           create: {
-            totalPoints: 0,
+            currentPoints: 0,
+            accumulatedPoints: 0,
+            totalAccumulatedPoints: 0,
           },
         },
         tier: tierId
@@ -73,6 +76,7 @@ export class CustomersService {
         customerPoints: true,
         tier: true,
         Order: true,
+        customerAddress: true,
       },
     });
   }
@@ -98,7 +102,9 @@ export class CustomersService {
         ...rest,
         customerPoints: {
           create: {
-            totalPoints: 0,
+            currentPoints: 0,
+            accumulatedPoints: 0,
+            totalAccumulatedPoints: 0,
           },
         },
         tier: tierId
@@ -111,6 +117,7 @@ export class CustomersService {
         customerPoints: true,
         tier: true,
         Order: true,
+        customerAddress: true,
       },
     });
   }
@@ -176,12 +183,32 @@ export class CustomersService {
       }
     }
 
-    // If updating password, hash it
-    if (updateCustomerDto.password) {
+    // If updating password, verify current password and hash new password
+    if (updateCustomerDto.newPassword) {
+      if (!updateCustomerDto.currentPassword) {
+        throw new BadRequestException(
+          'Current password is required to set a new password.',
+        );
+      }
+
+      // Verify current password
+      const isPasswordValid = await bcrypt.compare(
+        updateCustomerDto.currentPassword,
+        existingCustomer.password,
+      );
+      if (!isPasswordValid) {
+        throw new UnauthorizedException('Current password is incorrect.');
+      }
+
+      // Hash the new password
       updateCustomerDto.password = await bcrypt.hash(
-        updateCustomerDto.password,
+        updateCustomerDto.newPassword,
         10,
       );
+
+      // Remove currentPassword and newPassword from DTO to prevent updating them in the database
+      delete updateCustomerDto.currentPassword;
+      delete updateCustomerDto.newPassword;
     }
 
     // Update customer
@@ -192,6 +219,7 @@ export class CustomersService {
         customerPoints: true,
         tier: true,
         Order: true,
+        customerAddress: true,
       },
     });
   }
@@ -217,6 +245,7 @@ export class CustomersService {
         customerPoints: true,
         tier: true,
         Order: true,
+        customerAddress: true,
       },
     });
   }

@@ -1,16 +1,19 @@
+import { InputType, Field, Int } from '@nestjs/graphql';
 import {
   IsOptional,
   IsString,
   IsEmail,
   MinLength,
   IsBoolean,
+  IsInt,
 } from 'class-validator';
-import { InputType, Field } from '@nestjs/graphql';
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateCustomerDto } from './create-customer.dto';
 
 @InputType()
-export class UpdateCustomerDto extends PartialType(CreateCustomerDto) {
+export class UpdateCustomerInput {
+  @Field(() => Int)
+  @IsInt()
+  id: number;
+
   @Field({ nullable: true })
   @IsOptional()
   @IsEmail()
