@@ -20,7 +20,7 @@ export class CustomersResolver {
   }
 
   @Query(() => CustomerType, { name: 'customer' })
-  // @UseGuards(GqlAuthGuard) // Temporarily disable
+  @UseGuards(GqlAuthGuard)
   async findOne(@Args('id', { type: () => Int }) id: number) {
     return this.customersService.findOne(id, {
       include: {

@@ -10,6 +10,7 @@ import { ProductsModule } from './products/products.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { join } from 'path';
 import { TiersModule } from './tiers/tiers.module';
+import { CustomerAddressModule } from './customer-address/customer-address.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { TiersModule } from './tiers/tiers.module';
     CustomersModule,
     AuthModule,
     TiersModule,
+    CustomerAddressModule,
   ],
   controllers: [AppController],
   providers: [AppService],
