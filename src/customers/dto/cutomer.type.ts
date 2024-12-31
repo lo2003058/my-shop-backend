@@ -2,6 +2,7 @@ import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { CustomerPointType } from './customerPoint.type';
 import { CustomerAddressType } from './customerAddress.type';
 import { TiersType } from '../../tiers/dto/tiers.type';
+import { CustomerWishListType } from '../../customer-wish-list/dto/cutomer-wish-list.type';
 
 @ObjectType()
 export class CustomerType {
@@ -47,6 +48,9 @@ export class CustomerType {
 
   @Field(() => [CustomerAddressType], { nullable: true })
   customerAddress?: CustomerAddressType[];
+
+  @Field(() => [CustomerWishListType], { nullable: true })
+  customerWishList?: CustomerWishListType[];
 
   @Field()
   createdAt: Date;

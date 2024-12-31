@@ -11,6 +11,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { join } from 'path';
 import { TiersModule } from './tiers/tiers.module';
 import { CustomerAddressModule } from './customer-address/customer-address.module';
+import { CustomerWishListModule } from './customer-wish-list/customer-wish-list.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { CustomerAddressModule } from './customer-address/customer-address.modul
     AuthModule,
     TiersModule,
     CustomerAddressModule,
+    CustomerWishListModule,
   ],
   controllers: [AppController],
   providers: [AppService],

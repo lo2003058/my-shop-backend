@@ -28,4 +28,7 @@ export class ProductType {
 
   @Field()
   updatedAt: Date;
+
+  @Field(() => Boolean)
+  isCustomerWishListed: boolean;
 }

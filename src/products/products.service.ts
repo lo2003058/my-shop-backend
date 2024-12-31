@@ -32,6 +32,35 @@ export class ProductsService {
   }
 
   /**
+   * Retrieves a single product by ID.
+   * @param id - The ID of the product.
+   * @param cid - The ID of the customer.
+   * @returns The product.
+   */
+  async findOneForClient(id: number, cid: number) {
+    const product = await this.prisma.product.findUnique({
+      where: { id },
+    });
+    if (!product) {
+      throw new NotFoundException(`Product with ID ${id} not found.`);
+    }
+    const isCustomerWishListed = await this.prisma.customerWishList.findFirst({
+      where: {
+        customerId: cid,
+        productId: id,
+      },
+    });
+    console.log('customerId: ', cid);
+    console.log('productId: ', id);
+    console.log('isCustomerWishListed: ', isCustomerWishListed);
+
+    return {
+      ...product,
+      isCustomerWishListed: !!isCustomerWishListed,
+    };
+  }
+
+  /**
    * Creates a new product.
    * @param createProductDto - Data Transfer Object for creating a product.
    * @returns The created product.

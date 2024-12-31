@@ -75,8 +75,6 @@ export class CustomersService {
       include: {
         customerPoints: true,
         tier: true,
-        Order: true,
-        customerAddress: true,
       },
     });
   }
@@ -116,8 +114,6 @@ export class CustomersService {
       include: {
         customerPoints: true,
         tier: true,
-        Order: true,
-        customerAddress: true,
       },
     });
   }
@@ -132,6 +128,8 @@ export class CustomersService {
         customerPoints: true,
         tier: true,
         Order: true,
+        customerAddress: true,
+        customerWishList: true,
       },
     });
   }
@@ -218,8 +216,6 @@ export class CustomersService {
       include: {
         customerPoints: true,
         tier: true,
-        Order: true,
-        customerAddress: true,
       },
     });
   }
@@ -244,8 +240,6 @@ export class CustomersService {
       include: {
         customerPoints: true,
         tier: true,
-        Order: true,
-        customerAddress: true,
       },
     });
   }
